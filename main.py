@@ -38,7 +38,6 @@ def load_control_file(path):
     
 def calc_GPS():
     # code to load data goes here
-    # State.control=pd.read_excel(path)
     data=[]
     col=[]
     for angle in State.control.columns:
@@ -46,12 +45,10 @@ def calc_GPS():
             sq_sum=0
             for i in range(len(State.patient[side+angle])):
                 sq_sum=sq_sum+ np.power((State.patient[side+angle][i]- State.control[angle][i]),2)
-            print(sq_sum)
             data.append(np.power(sq_sum/len(State.patient[side+angle]),0.5))
             col.append(side+angle)
     State.map_GPS=pd.DataFrame([data],columns=col)
-    print(State.map_GPS)
-    
+
     total=0
     for angle in LGPS_list:
         total=total + np.power(State.map_GPS[angle],2)
@@ -71,18 +68,12 @@ def calc_GPS():
     col.append('GPS')
     
     State.map_GPS=pd.DataFrame([data],columns=col)
-#    print(State.map_GPS)
-#    print(State.map_GPS['GPS'])
-#    print(str(State.map_GPS['GPS']))
-#    print("{:.2f}".format(State.map_GPS['GPS'][0]))
-#   
-#    GPS = State.patient['LKneeFlex'] - State.control['KneeFlex']
-#    State.mapGPS = [5,9,3,5]
+
     State.ui.set_element(UiElement.OUT_GPS,"{:.2f}".format(State.map_GPS['GPS'][0]))
     State.ui.set_element(UiElement.OUT_LGPS,"{:.2f}".format(State.map_GPS['LGPS'][0]))
     State.ui.set_element(UiElement.OUT_RGPS,"{:.2f}".format(State.map_GPS['RGPS'][0]))
 #    # end of your code
-    # print(path)
+
     
 def show_graph(path):
     
