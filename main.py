@@ -20,7 +20,7 @@ class State:
     map_GPS = []
     ui=[]
         
-def GPS(data):
+def rms(data):
     sq_sum=0
     for i in range(len(data)):
         sq_sum=sq_sum+ np.power((data[i]),2)
@@ -46,29 +46,26 @@ def calc_GPS():
     col=[]
     for angle in State.control.columns:
         for side in ['L','R']:
-            sq_sum=0
-            for i in range(len(State.patient[side+angle])):
-                sq_sum=sq_sum+ np.power((State.patient[side+angle][i]- State.control[angle][i]),2)
-            data.append(np.power(sq_sum/len(State.patient[side+angle]),0.5))
+            data.append(rms(State.patient[side+angle]-State.control[angle]))
             col.append(side+angle)
     State.map_GPS=pd.DataFrame([data],columns=col)
 
-    total=0
+    map_list=[]
     for angle in LGPS_list:
-        total=total + np.power(State.map_GPS[angle],2)
-    data.append(np.power(total/len(LGPS_list),0.5)[0])
+        map_list.append(State.map_GPS[angle])
+    data.append(rms(map_list)[0])
     col.append('LGPS')
     
-    total=0
+    map_list=[]
     for angle in RGPS_list:
-        total=total + np.power(State.map_GPS[angle],2)
-    data.append(np.power(total/len(RGPS_list),0.5)[0])
+        map_list.append(State.map_GPS[angle])
+    data.append(rms(map_list)[0])
     col.append('RGPS')
     
-    total=0
+    map_list=[]
     for angle in GPS_list:
-        total=total + np.power(State.map_GPS[angle],2)
-    data.append(np.power(total/len(GPS_list),0.5)[0])
+        map_list.append(State.map_GPS[angle])
+    data.append(rms(map_list)[0])
     col.append('GPS')
     
     State.map_GPS=pd.DataFrame([data],columns=col)
