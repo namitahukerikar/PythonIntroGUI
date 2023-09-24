@@ -20,7 +20,7 @@ class State:
     map_GPS = []
     ui=[]
         
-def GPS(data):
+def rms(data):
     sq_sum=0
     for i in range(len(data)):
         sq_sum=sq_sum+ np.power((data[i]),2)
