@@ -35,38 +35,23 @@ def calc_GPS():
     data=[]
     col=[]
     try:
-        for angle in State.control.columns:
-            for side in ['L','R']:
-                sq_sum=0
-                for i in range(len(State.patient[side+angle])):
-                    sq_sum=sq_sum+ np.power((State.patient[side+angle][i]- State.control[angle][i]),2)
-                data.append(np.power(sq_sum/len(State.patient[side+angle]),0.5))
-                col.append(side+angle)
-        State.map_GPS=pd.DataFrame([data],columns=col)
+        pass
+        # your code to calculate GPS goes here.
+        # for each angle in State.control.columns, and for 'L' and 'R' you need to calculate
+        # rms of difference between each point for control subject and patient.
+        # create a dataframe where columns are called side+ angle eg LHipFlex
+        # the data for the dataframe will be the rms value for this parameter
         
-        total=0
-        for angle in LGPS_list:
-            total=total + np.power(State.map_GPS[angle],2)
-        data.append(np.power(total/len(LGPS_list),0.5)[0])
-        col.append('LGPS')
+        # add 3 more columns to the dataframe called LGPS, RGPS and GPS.
+        # these are the rms values of the list of variables listed in LGPS_list above.
         
-        total=0
-        for angle in RGPS_list:
-            total=total + np.power(State.map_GPS[angle],2)
-        data.append(np.power(total/len(RGPS_list),0.5)[0])
-        col.append('RGPS')
+        # the code below sets the values of State.map_GPS and the text boxes
         
-        total=0
-        for angle in GPS_list:
-            total=total + np.power(State.map_GPS[angle],2)
-        data.append(np.power(total/len(GPS_list),0.5)[0])
-        col.append('GPS')
-        
-        State.map_GPS=pd.DataFrame([data],columns=col)
+#        State.map_GPS=pd.DataFrame([data],columns=col)
     
-        State.ui.set_element(UiElement.OUT_GPS,"{:.2f}".format(State.map_GPS['GPS'][0]))
-        State.ui.set_element(UiElement.OUT_LGPS,"{:.2f}".format(State.map_GPS['LGPS'][0]))
-        State.ui.set_element(UiElement.OUT_RGPS,"{:.2f}".format(State.map_GPS['RGPS'][0]))
+#        State.ui.set_element(UiElement.OUT_GPS,"{:.2f}".format(State.map_GPS['GPS'][0]))
+#        State.ui.set_element(UiElement.OUT_LGPS,"{:.2f}".format(State.map_GPS['LGPS'][0]))
+#        State.ui.set_element(UiElement.OUT_RGPS,"{:.2f}".format(State.map_GPS['RGPS'][0]))
     except:
         print('no data to perform calculation')
 
